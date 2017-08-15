@@ -19,3 +19,9 @@ public class SnackbarUtil {
   }
 
 }
+
+/**
+ * Example Code
+ */
+
+//    SnackbarUtil.makeShortWithoutAction(findViewById(android.R.id.content),"test");

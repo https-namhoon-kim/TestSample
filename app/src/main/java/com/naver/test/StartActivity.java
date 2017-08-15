@@ -12,25 +12,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import com.naver.test.utils.SnackbarUtil;
 
 public class StartActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+  private Button mLoginButotn;
+  private Button mDecommissioningButton;
+
+
+  public interface Callback {
+    void onSuccess();
+    void onFailed();
+  }
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_start);
+
+    init();
+  }
+
+
+  private void init() {
+    // TODO : Button
+    mLoginButotn = (Button) findViewById(R.id.login_button);
+    mLoginButotn.setOnClickListener(this);
+    mDecommissioningButton = (Button) findViewById(R.id.decommissioning_button);
+    mDecommissioningButton.setOnClickListener(this);
+
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
-      }
-    });
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +57,70 @@ public class StartActivity extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
   }
 
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.login_button:
+        onClickLoginButton();
+        break;
+      case R.id.decommissioning_button:
+        onClickDecommissioningButotn();
+        break;
+    }
+  }
+
+  private void onClickLoginButton() {
+    // TODO 네이버 로그인 시도
+    onStartNaverLogin(new Callback() {
+      @Override
+      public void onSuccess() {
+        // TODO 타원곡선 키 생성
+        // TODO 키소토어에 키쌍 저장
+        // TODO Fingerprint 권한 인증
+
+      }
+
+      @Override
+      public void onFailed() {
+
+      }
+    });
+  }
+
+  public void onStartNaverLogin(Callback callback) {
+    boolean result = true;
+    if(result) {
+      callback.onSuccess();
+    }
+    else {
+      callback.onFailed();
+    }
+  }
+
+
+  private void onClickDecommissioningButotn() {
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -52,27 +131,6 @@ public class StartActivity extends AppCompatActivity
     }
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.start, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
-  }
 
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
